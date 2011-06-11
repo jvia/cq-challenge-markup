@@ -14,7 +14,9 @@ read_file(File, Text) :-
         read_file1([], Text),
         %% Use the disjunction to that the
         %% stream is always closed.
-        close(File); close(File).
+        close(File), !
+        ;
+        close(File), !.
 
 read_file1(Accm, Text) :-
         get_char(Char),
@@ -25,11 +27,13 @@ read_file1(Accm, Text) :-
             read_file1(New_Accm, Text)
         ).
 
+
 /********************************************************************/
 /*                              Grammar                             */
 /********************************************************************/
 
-%% Handle the optinonal mode line 
+
+%% Handle the optinonal mode line
 mode_line --> ['-*- mode: markup; -*-'], blank_line.
 mode_line --> [].
 
@@ -51,12 +55,13 @@ text --> punct, text.
 text --> [].
 
 
-%% Blank line must be two newlines or newline and end_of_file marker.
-blank_line --> nl, extra_nl, ['end_of_file'].
-blank_line --> nl, nl, extra_nl.
+%% Blank line must be at least two newlines or newline and end_of_file
+%% marker.
+blank_line --> nl, extra_nl.
 
 
 extra_nl --> nl, extra_nl.
+extra_nl --> ['end_of_file'].
 extra_nl --> [].
 
 

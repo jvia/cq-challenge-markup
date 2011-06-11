@@ -32,6 +32,8 @@ read_file1(Accm, Text) :-
 /*                              Grammar                             */
 /********************************************************************/
 
+%% Empty document
+doc --> [].
 
 %% Handle the optinonal mode line
 mode_line --> ['-*- mode: markup; -*-'], blank_line.
@@ -45,6 +47,29 @@ h --> [].
 
 %% Handles a paragraph
 p --> text, blank_line.
+
+%% verbatim
+
+%% block_quote
+
+%% lists (ordered & unordered)
+
+%% links
+
+
+%% italics
+italic --> ['\\'], ['i'], ['{'], doc, ['}'].
+
+
+%% bold
+bold --> ['\\'], ['b'], ['{'], doc, ['}'].
+
+
+%% note
+note --> ['\\'], ['n'], ['o'], ['t'], ['e'], ['{'], doc, ['}'].
+
+
+%% escapes
 
 
 %% Handles groups of text

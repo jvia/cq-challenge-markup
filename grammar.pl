@@ -1,114 +1,101 @@
-/** <module> Markup Grammar
+%%% -*- Mode: Prolog; Module: user; -*-
+%%
+%%
+%% This module defines the grammar.
+%%
+%%
+%% TODO:
+%%   - [ ] Paragraph
+%%      - [ ] Can contain tagged markup
+%%      - [ ] Terminates with at least two newlines or
+%%            possibly an end_of_file marker
+%%   - [ ] Headers
+%%      - [ ] Special pragraph tha begins with '*'
+%%      - [ ] No limit to '*'
+%%      - [ ] Should be able to keep track of the level in the
+%%            hierarchy
+%%      - [ ] Besides '*', they function the same as paragraphs
+%%   - [ ] Block quotes
+%%      - [ ] Two spaces relative to the indentation level
+%%      - [ ] Ends with end_of_file or less indentation
+%%      - [ ] can contain pragraphs
+%%   - [ ] Verbatim section
+%%      - [ ] Three spaces relative to the enclosing section
+%%      - [ ] All text captured exactly as is
+%%   - [ ] Lists
+%%      - [ ] Two spaces of indentation followed by '-' or '#'
+%%      - [ ] '#' is ordered
+%%      - [ ] '-' unordered
+%%      - [ ] can be nested
+%%      - [ ] can contain paragraphs
+%%   - [ ] Links
+%%      - [ ] Unnamed linked '\url{}'
+%%      - [ ] Key link '[url|key]' which links to '[key|url]' at
+%%            the end of the document
+%%   - [ ] Tagged Markup
+%%      - [ ] italic: \i{}
+%%      - [ ] bold: \b{}
+%%      - [ ] code: \code{}
+%%      - [ ] note: \note{}
+%%      - [ ] Some markup is a subdocument rather than markup
+%%   - [ ] Escapes
+%%      - [ ] Backslash can escape any character at the location
+%%            where it has syntactic significance
+%%   - [ ] Mode line
+%%
+%% @author Jeremiah Via <jxv911@cs.bham.ac.uk>
 
-This module defines the grammar for the structured text known as
-Markup.
+:- dynamic indent/1, last_indent/1.
 
-@author Jeremiah Via <jxv911@cs.bham.ac.uk>
-*/
-
-
-%% This will be moved to a different file once the grammar is
-%% finished.
-read_file(File, Text) :-
-        see(File),
-        read_file1([], Text),
-        %% Use the disjunction to that the
-        %% stream is always closed.
-        close(File), !
-        ;
-        close(File), !.
-
-read_file1(Accm, Text) :-
-        get_char(Char),
-        ( Char == end_of_file ->
-            Accm = Text
-        ;
-            append(Accm, [Char], New_Accm),
-            read_file1(New_Accm, Text)
-        ).
+indent(0).
+last_indent(0).
 
 
 /********************************************************************/
 /*                              Grammar                             */
 /********************************************************************/
-
-%% Empty document
-doc --> [].
-
-%% Handle the optinonal mode line
-mode_line --> ['-*- mode: markup; -*-'], blank_line.
-mode_line --> [].
+body --> mode, p.
+body --> p.
 
 
-%% Handles the headings
-h --> ['*'], h.
-h --> [].
+p --> [].
 
-
-%% Handles a paragraph
-p --> text, blank_line.
-
-%% verbatim
-
-%% block_quote
-
-%% lists (ordered & unordered)
-
-%% links
-
-
-%% italics
-italic --> ['\\'], ['i'], ['{'], doc, ['}'].
-
-
-%% bold
-bold --> ['\\'], ['b'], ['{'], doc, ['}'].
-
-
-%% note
-note --> ['\\'], ['n'], ['o'], ['t'], ['e'], ['{'], doc, ['}'].
-
-
-%% escapes
-
-
-%% Handles groups of text
-text --> alpha, text.
-text --> digit, text.
-text --> whitespace, text.
-text --> punct, text.
-text --> [].
-
-
-%% Blank line must be at least two newlines or newline and end_of_file
-%% marker.
-blank_line --> nl, extra_nl.
-
-
-extra_nl --> nl, extra_nl.
-extra_nl --> ['end_of_file'].
-extra_nl --> [].
+text([Char|Chars]) -->
+        char(Char),
+        text(Chars).
+text([Char|Chars]) -->
+        punct(Char),
+        text(Chars).
+text([Char|Chars]) -->
+        whitespace(Char),
+        text(Chars). 
+text([]) --> [].
 
 
 /********************************************************************/
 /*                              Lexicon                             */
 /********************************************************************/
 
+mode --> "-*- mode: markup; -*-".
 
-nl --> ['\n'].
 
-digit --> [C], { name(C, [V]), V >= 48, V =< 57 }.
+nl_spaces --> " ", {
+                 indent(I),
+                 retract(indent(I)),
+                 I1 is I + 1,
+                 assert(indent(I1))
+                }, spaces.
+nl_spaces --> [].
 
-whitespace --> [' '] | ['\t'].
 
-punct --> ['.'] | ['?'] | ['!'], [','] | [';'].
 
-alpha -->
+punct(C) --> [C], {member(C, ".!?,;'")}.
+
+
+whitespace(C) -->
         [C],
-        { name(C, [V]),
-          (
-            97 =< V, V =< 122
-          ;
-            65 =< V, V =< 90
-          )
-        }.
+        {member(C, " \t")}.
+        
+%% Covers only basic text right now; 
+%% special characters later
+char(C) --> [C], { "!" =< C, C =< "~" }.

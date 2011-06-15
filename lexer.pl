@@ -1,14 +1,14 @@
-%%% -*- Mode: Prolog; Module: user; -*-
+%%% -*- Mode: Prolog; Module: lexer; -*-
 %%
 %% Converts input stream into tokens.
 
-%% Lex italic
+%% Lex markup environments
 token([X|Xs]) -->
-        i(X),
+        markup(X),
         token(Xs).
-%% Lex bold
+%% Lex escape
 token([X|Xs]) -->
-        b(X),
+        escape(X),
         token(Xs).
 %% Lex }
 token([X|Xs]) -->
@@ -29,17 +29,34 @@ token([X|Xs]) -->
 %% Lex words
 token([word(X)|Xs]) -->
         lookahead(C),
-        {"!" =< C, C =< "~"},
+        { %% Special markup
+          special(Special),
+          \+ member(C, Special)
+        },
         word(X),
         token(Xs).
+%% Lex hash
+token([hash|Xs]) -->
+        hash,
+        token(Xs).
+%% Lex dash
+token([dash|Xs]) -->
+        dash,
+        token(Xs).
+%% Empty or eof
 token([]) --> [].
 
 
-i(i_) --> "\\i{".
+hash --> "#".
 
 
-b(b_) --> "\\b{".
+dash --> "-".
 
+
+escape(esc(C)) --> "\\", [C].
+
+%% Potentially too permissive
+%%markup(markup(E)) --> "\\", [E], "{".
 
 
 endB('}') --> "}".
@@ -67,10 +84,31 @@ char(C) -->
         {
          "!" =< C,
          C =< "~",
-         C =\= "}"
+         %% Special markup
+         special(Special),
+         \+ member(C, Special)
         }.
+
+
+
+%% Markup
+markup(M) -->  i(M) | b(M) | code(M) | note(M).
         
+i(i_) --> "\\i{".
+
+
+b(b_) --> "\\b{".
+
+
+code(code_) --> "\\code{".
+
+
+note(note_) --> "\\note{".
+
 
 
 %% Peek one character ahead
 lookahead(C), [C] --> [C].
+
+%% List of characters of potential syntactic importance
+special("}#-").

@@ -45,57 +45,19 @@
 %%
 %% @author Jeremiah Via <jxv911@cs.bham.ac.uk>
 
-:- dynamic indent/1, last_indent/1.
+:- dynamic indent/1.
 
 indent(0).
-last_indent(0).
 
 
 /********************************************************************/
 /*                              Grammar                             */
 /********************************************************************/
-body --> mode, p.
-body --> p.
-
-
-p --> [].
-
-text([Char|Chars]) -->
-        char(Char),
-        text(Chars).
-text([Char|Chars]) -->
-        punct(Char),
-        text(Chars).
-text([Char|Chars]) -->
-        whitespace(Char),
-        text(Chars). 
-text([]) --> [].
 
 
 /********************************************************************/
 /*                              Lexicon                             */
 /********************************************************************/
 
-mode --> "-*- mode: markup; -*-".
 
-
-nl_spaces --> " ", {
-                 indent(I),
-                 retract(indent(I)),
-                 I1 is I + 1,
-                 assert(indent(I1))
-                }, spaces.
-nl_spaces --> [].
-
-
-
-punct(C) --> [C], {member(C, ".!?,;'")}.
-
-
-whitespace(C) -->
-        [C],
-        {member(C, " \t")}.
-        
-%% Covers only basic text right now; 
-%% special characters later
-char(C) --> [C], { "!" =< C, C =< "~" }.
+eof --> [-1].

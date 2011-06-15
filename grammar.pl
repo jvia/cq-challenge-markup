@@ -45,6 +45,9 @@
 %%
 %% @author Jeremiah Via <jxv911@cs.bham.ac.uk>
 
+:- module(grammar,
+          [ eof/1               % enf_of_file
+          ]).
 :- dynamic indent/1.
 
 indent(0).

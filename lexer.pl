@@ -1,6 +1,9 @@
 %%% -*- Mode: Prolog; Module: lexer; -*-
 %%
 %% Converts input stream into tokens.
+:- module(lexer,
+          [ token/1             % CodeList
+          ]).
 
 %% Lex markup environments
 token(Xs) -->
@@ -95,8 +98,8 @@ word([]) --> lookahead(C), { name(' ', [C])
                            ; name('\n', [C])
                            ; -1 == C
                            } ; [].
-        
-        
+
+
 
 
 char(C) -->
@@ -113,7 +116,7 @@ char(C) -->
 
 %% Markup
 markup(M) -->  i(M) | b(M) | code(M) | note(M).
-        
+
 i(i_) --> "\\i{".
 b(b_) --> "\\b{".
 code(code_) --> "\\code{".
@@ -133,4 +136,4 @@ eof(-1).
 
 modeline --> "-*- mode: markup; -*-".
 
-        
+

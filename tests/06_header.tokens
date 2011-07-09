@@ -1,0 +1,9 @@
+[
+ asterisk(1), spaces(1), 
+              word([84,104,105,115]), spaces(1), 
+              word([105,115]), spaces(1), 
+              word([97]), spaces(1), 
+              word([116,111,112]), spaces(1), 
+              word([108,101,118,101,108]), spaces(1), 
+              word([104,101,97,100,101,114]), 
+ nl(1), eof].

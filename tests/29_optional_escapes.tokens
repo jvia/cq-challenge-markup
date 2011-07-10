@@ -1,0 +1,3 @@
+[
+word([84,104,101,115,101]), spaces(1), word([99,104,97,114,115]), spaces(1), esc(42), spaces(1), esc(45), spaces(1), esc(35), spaces(1), word([99,97,110]), spaces(1), word([98,101]), spaces(1), word([101,115,99,97,112,101,100,46]), nl(1), eof
+].

@@ -1,0 +1,17 @@
+[
+word([84,104,105,115]), spaces(1), word([105,115]), spaces(1), word([97]), spaces(1), word([114,101,103,117,108,97,114]), spaces(1), word([112,97,114,97,103,114,97,112,104,46]), note, word([84,104,105,115]), spaces(1), word([105,115]), spaces(1), word([97,110]), spaces(1), word([101,109,98,101,100,100,101,100]), spaces(1), word([110,111,116,101,46]), 
+nl(2), 
+spaces(2), hash, spaces(1), word([105,116,101,109]), spaces(1), word([49]), 
+nl(2), 
+spaces(2), hash, spaces(1), word([105,116,101,109]), spaces(1), word([50]), 
+nl(2), 
+word([65,110,100]), spaces(1), word([98,117,108,108,101,116]), spaces(1), word([108,105,115,116,46]), 
+nl(2), 
+spaces(2), dash, spaces(1), word([105,116,101,109]), spaces(1), word([49]), 
+nl(2), 
+spaces(2), dash, spaces(1), word([105,116,101,109]), spaces(1), word([50]), 
+nl(2), 
+word([66,97,99,107]), spaces(1), word([116,111]), spaces(1), word([114,101,103,117,108,97,114,46]), '}', spaces(1), word([72,101,114,101,39,115]), spaces(1), word([116,104,101]), spaces(1), word([114,101,115,116]), spaces(1), word([111,102]), spaces(1), word([116,104,101]), spaces(1), word([111,117,116,101,114]), spaces(1), word([112,97,114,97,103,114,97,112,104,46]), 
+nl(1),
+eof
+].

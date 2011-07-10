@@ -42,7 +42,7 @@ case('32_escaped_bullet_list_marker',         "32_escaped_bullet_list_marker").
 case('33_escapes_not_needed',                 "33_escapes_not_needed").
 case('34_modeline',                           "34_modeline").
 case('35_links',                              "35_links").
-case('instructions.tokens',                   "instructions").
+case('instructions',                          "instructions").
 case('markup-spec',                           "markup-spec").
 
 
@@ -214,50 +214,43 @@ test('27_note_with_lists',
 
 test('28_required_escapes',
      [ setup(load('28_required_escapes', Text, FileTokens)),
-       true(Tokens == FileTokens),
-       fixme('not implemented')
+       true(Tokens == FileTokens)
      ]) :-
         phrase(token(Tokens), Text, []), !.
 
 test('29_optional_escapes',
      [ setup(load('29_optional_escapes', Text, FileTokens)),
-       true(Tokens == FileTokens),
-       fixme('not implemented')
+       true(Tokens == FileTokens)
      ]) :-
         phrase(token(Tokens), Text, []), !.
 
 test('30_escaped_header',
      [ setup(load('30_escaped_header', Text, FileTokens)),
-       true(Tokens == FileTokens),
-       fixme('not implemented')
+       true(Tokens == FileTokens)
      ]) :-
         phrase(token(Tokens), Text, []), !.
 
 test('31_escaped_numbered_list_marker',
      [ setup(load('31_escaped_numbered_list_marker', Text, FileTokens)),
-       true(Tokens == FileTokens),
-       fixme('not implemented')
+       true(Tokens == FileTokens)
      ]) :-
         phrase(token(Tokens), Text, []), !.
 
 test('32_escaped_bullet_list_marker',
      [ setup(load('32_escaped_bullet_list_marker', Text, FileTokens)),
-       true(Tokens == FileTokens),
-       fixme('not implemented')
+       true(Tokens == FileTokens)
      ]) :-
         phrase(token(Tokens), Text, []), !.
 
 test('33_escapes_not_needed',
      [ setup(load('33_escapes_not_needed', Text, FileTokens)),
-       true(Tokens == FileTokens),
-       fixme('not implemented')
+       true(Tokens == FileTokens)
      ]) :-
         phrase(token(Tokens), Text, []), !.
 
 test('34_modeline',
      [ setup(load('34_modeline', Text, FileTokens)),
-       true(Tokens == FileTokens),
-       fixme('not implemented')
+       true(Tokens == FileTokens)
      ]) :-
         phrase(token(Tokens), Text, []), !.
 

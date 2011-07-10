@@ -1,9 +1,12 @@
 %%% -*- Mode: Prolog; Module: lexer; -*-
 %%
 %% Converts input stream into tokens.
+
 :- module(lexer,
-          [ token/1             % CodeList
+          [ token/3,            % CodeList
+            bracket/3
           ]).
+
 
 %% Lex markup environments
 token(Xs) -->
@@ -17,9 +20,9 @@ token([X|Xs]) -->
         escape(X),
         token(Xs).
 %% Lex }
-token([X|Xs]) -->
-        endB(X),
-        token(Xs).
+%token([X|Xs]) -->
+%        endB(X),
+%        token(Xs).
 %% Lex asterisks
 token([X|Xs]) -->
         lookahead(C),
@@ -37,6 +40,10 @@ token([X|Xs]) -->
         lookahead(C),
         {name('\n', [C])},
         nl(0, X),
+        token(Xs).
+%% Lex brackets
+token([X|Xs]) -->
+        bracket(X),
         token(Xs).
 %% Lex words
 token([word(X)|Xs]) -->
@@ -63,11 +70,7 @@ token([no-eof]) --> [].
 
 
 hash --> "#".
-
-
-dash -->
-        "-",
-        {write('dash')}.
+dash --> "-".
 
 
 escape(esc(C)) --> "\\", [C].
@@ -99,9 +102,6 @@ word([]) --> lookahead(C), { name(' ', [C])
                            ; -1 == C
                            } ; [].
 
-
-
-
 char(C) -->
         [C],
         {
@@ -113,27 +113,28 @@ char(C) -->
         }.
 
 
-
-%% Markup
-markup(M) -->  i(M) | b(M) | code(M) | note(M).
-
-i(i_) --> "\\i{".
-b(b_) --> "\\b{".
-code(code_) --> "\\code{".
-note(note_) --> "\\note{".
+bracket(open(Bracket))  -->
+        [Bracket], {member(Bracket, "([{<")}.
+bracket(close(Bracket)) -->
+        [Bracket], {member(Bracket, ")]}>")}.
 
 
 
 %% Peek one character ahead
 lookahead(C), [C] --> [C].
 
-%% List of characters of potential syntactic importance
-special("}#-*").
+%% Markup
+markup(M) -->  i(M) | b(M) | code(M) | note(M).
+i(italic) --> "\\i{".
+b(bold) --> "\\b{".%, bracket(open("{")).
+code(code) --> "\\code{".
+note(note) --> "\\note{".
 
+
+%% List of characters of potential syntactic importance
+special("([{<)]}>#-*").
 
 eof(-1).
-
-
 modeline --> "-*- mode: markup; -*-".
 
 

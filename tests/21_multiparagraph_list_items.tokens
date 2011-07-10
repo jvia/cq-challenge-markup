@@ -1,0 +1,11 @@
+[
+spaces(2), hash, spaces(1), word([84,104,105,115]), spaces(1), word([105,115]), spaces(1), word([116,104,101]), spaces(1), word([102,105,114,115,116]), spaces(1), word([105,116,101,109,46]), 
+nl(2), 
+spaces(4), word([84,104,105,115]), spaces(1), word([105,115]), spaces(1), word([115,116,105,108,108]), spaces(1), word([112,97,114,116]), spaces(1), word([111,102]), spaces(1), word([116,104,101]), spaces(1), word([102,105,114,115,116]), spaces(1), word([105,116,101,109,46]), 
+nl(2), 
+
+spaces(2), hash, spaces(1), word([84,104,105,115]), spaces(1), word([105,115]), spaces(1), word([116,104,101]), spaces(1), word([115,101,99,111,110,100]), spaces(1), word([105,116,101,109,46]), 
+nl(2), 
+spaces(4), word([84,104,105,115]), spaces(1), word([105,115]), spaces(1), word([97,110,111,116,104,101,114]), spaces(1), word([112,97,114,97,103,114,97,112,104]), spaces(1), word([105,110]), spaces(1), word([116,104,101]), spaces(1), word([115,101,99,111,110,100]), spaces(1), word([105,116,101,109,46]), 
+nl(1), 
+eof].

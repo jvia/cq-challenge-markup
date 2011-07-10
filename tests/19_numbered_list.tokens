@@ -1,0 +1,6 @@
+[spaces(2), hash, spaces(1), word([73,116,101,109]), spaces(1), word([110,117,109,98,101,114]), spaces(1), word([111,110,101]), 
+nl(2), 
+ spaces(2), hash, spaces(1), word([73,116,101,109]), spaces(1), word([110,117,109,98,101,114]), spaces(1), word([116,119,111]), 
+nl(2), 
+ spaces(2), hash, spaces(1), word([73,116,101,109]), spaces(1), word([110,117,109,98,101,114]), spaces(1), word([116,104,114,101,101]), nl(1), 
+eof].

@@ -9,53 +9,20 @@
 
 
 %% Lex markup environments
-token(Xs) -->
-        modeline,
-        token(Xs).
-token([X|Xs]) -->
-        markup(X),
-        token(Xs).
-%% Lex escape
-token([X|Xs]) -->
-        escape(X),
-        token(Xs).
-%% Lex asterisks
-token([X|Xs]) -->
-        lookahead(C),
-        {name('*', [C])},
-        asterisk(0, X),
-        token(Xs).
-%% Lex spaces
-token([X|Xs]) -->
-        lookahead(C),
-        {name(' ', [C])},
-        spaces(0, X),
-        token(Xs).
-%% Lex newline
-token([X|Xs]) -->
-        lookahead(C),
-        {name('\n', [C])},
-        nl(0, X),
-        token(Xs).
-%% Lex brackets
-token([X|Xs]) -->
-        bracket(X),
-        token(Xs).
-%% Lex words
+token(Xs)     --> modeline, token(Xs).
+token([X|Xs]) --> markup(X), token(Xs).
+token([X|Xs]) --> escape(X), token(Xs).
+token([X|Xs]) --> lookahead("*"), asterisk(0, X), token(Xs).
+token([X|Xs]) --> lookahead(" "), spaces(0, X), token(Xs).
+token([X|Xs]) --> lookahead("\n"), nl(0, X), token(Xs).
+token([X|Xs]) --> bracket(X), token(Xs).
 token([word(X)|Xs]) -->
-        lookahead(C),
+        lookahead([C]),
         { is_plain_char(C) },
         word(X),
         token(Xs).
-%% Lex hash
-token([hash|Xs]) -->
-        hash,
-        token(Xs).
-%% Lex dash
-token([dash|Xs]) -->
-        dash,
-        token(Xs).
-%% Empty or eof
+token([hash|Xs]) --> hash, token(Xs).
+token([dash|Xs]) --> dash, token(Xs).
 token([eof]) --> [C], {eof(C)}.
 %% May be error if not from command line
 token([no-eof]) --> [].
@@ -94,8 +61,6 @@ bracket(close(Bracket)) -->
 
 
 
-%% Peek one character ahead
-lookahead(C), [C] --> [C].
 
 %% Markup
 markup(italic) --> "\\i",    bracket(open("{")).
@@ -110,12 +75,13 @@ special("([{<)]}>#-*").
 eof(-1).
 modeline --> "-*- mode: markup; -*-".
 
+
 /*******************************/
 /*         Helper code         */
 /*******************************/
 
 %% Peek one character ahead
-lookahead(C), [C] --> [C].
+lookahead([C]), [C] --> [C].
 
 
 is_plain_char(C) :-
@@ -130,3 +96,6 @@ is_word_end(C) :-
         name(' ', [C]) ;
         name('\n', [C]) ;
         -1 == C.
+
+
+        

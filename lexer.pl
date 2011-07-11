@@ -98,11 +98,10 @@ bracket(close(Bracket)) -->
 lookahead(C), [C] --> [C].
 
 %% Markup
-markup(M) -->  i(M) | b(M) | code(M) | note(M).
-i(italic) --> "\\i{".
-b(bold) --> "\\b{".
-code(code) --> "\\code{".
-note(note) --> "\\note{".
+markup(italic) --> "\\i",    bracket(open("{")).
+markup(bold)   --> "\\b",    bracket(open("{")).
+markup(code)   --> "\\code", bracket(open("{")).
+markup(note)   --> "\\note", bracket(open("{")).
 
 
 %% List of characters of potential syntactic importance
@@ -110,6 +109,13 @@ special("([{<)]}>#-*").
 
 eof(-1).
 modeline --> "-*- mode: markup; -*-".
+
+/*******************************/
+/*         Helper code         */
+/*******************************/
+
+%% Peek one character ahead
+lookahead(C), [C] --> [C].
 
 
 is_plain_char(C) :-

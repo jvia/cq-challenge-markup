@@ -19,14 +19,10 @@ token([X|Xs]) -->
 token([X|Xs]) -->
         escape(X),
         token(Xs).
-%% Lex }
-%token([X|Xs]) -->
-%        endB(X),
-%        token(Xs).
 %% Lex asterisks
 token([X|Xs]) -->
         lookahead(C),
-        { name('*', [C])},
+        {name('*', [C])},
         asterisk(0, X),
         token(Xs).
 %% Lex spaces
@@ -48,11 +44,7 @@ token([X|Xs]) -->
 %% Lex words
 token([word(X)|Xs]) -->
         lookahead(C),
-        { %% Special markup
-          special(Special),
-          \+ member(C, Special),
-          C =\= -1
-        },
+        { is_plain_char(C) },
         word(X),
         token(Xs).
 %% Lex hash
@@ -65,21 +57,15 @@ token([dash|Xs]) -->
         token(Xs).
 %% Empty or eof
 token([eof]) --> [C], {eof(C)}.
+%% May be error if not from command line
 token([no-eof]) --> [].
-
 
 
 hash --> "#".
 dash --> "-".
 
 
-escape(esc(C)) --> "\\", [C].
-
-%% Potentially too permissive
-%%markup(markup(E)) --> "\\", [E], "{".
-
-
-endB('}') --> "}".
+escape(esc(C)) --> "\\", char(C).
 
 
 spaces(X, Y)  --> " ", {X1 is X + 1}, spaces(X1, Y).
@@ -94,23 +80,11 @@ asterisk(X, Y) --> "*", {X1 is X + 1}, asterisk(X1, Y).
 asterisk(X, asterisk(X)) --> [].
 
 
-word([X|Xs]) -->
-        char(X),
-        word(Xs).
-word([]) --> lookahead(C), { name(' ', [C])
-                           ; name('\n', [C])
-                           ; -1 == C
-                           } ; [].
+word([X|Xs]) --> char(X),  word(Xs).
+word([]) --> lookahead(C), { is_word_end(C) } | [].
 
-char(C) -->
-        [C],
-        {
-         "!" =< C, C =< "~",
-         C =\= -1,
-         %% Special markup
-         special(Special),
-         \+ member(C, Special)
-        }.
+
+char(C) --> [C], { is_plain_char(C) }.
 
 
 bracket(open(Bracket))  -->
@@ -126,7 +100,7 @@ lookahead(C), [C] --> [C].
 %% Markup
 markup(M) -->  i(M) | b(M) | code(M) | note(M).
 i(italic) --> "\\i{".
-b(bold) --> "\\b{".%, bracket(open("{")).
+b(bold) --> "\\b{".
 code(code) --> "\\code{".
 note(note) --> "\\note{".
 
@@ -138,3 +112,15 @@ eof(-1).
 modeline --> "-*- mode: markup; -*-".
 
 
+is_plain_char(C) :-
+        "!" =< C, C =< "~",
+        C =\= -1,
+        %% Special markup
+        special(Special),
+        \+ member(C, Special).
+
+
+is_word_end(C) :-
+        name(' ', [C]) ;
+        name('\n', [C]) ;
+        -1 == C.

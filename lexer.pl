@@ -74,10 +74,10 @@ bracket(close(Bracket)) --> [Bracket], {member(Bracket, ")]}>")}.
 
 
 %% Catch markup here to make easier processing in the grammar.
-markup(italic) --> "\\i",    bracket(open("{")).
-markup(bold)   --> "\\b",    bracket(open("{")).
-markup(code)   --> "\\code", bracket(open("{")).
-markup(note)   --> "\\note", bracket(open("{")).
+markup(italic) --> "\\i{".
+markup(bold)   --> "\\b{".
+markup(code)   --> "\\code{".
+markup(note)   --> "\\note{".
 
 
 %% List of characters of potential syntactic importance

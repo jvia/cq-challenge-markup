@@ -137,8 +137,7 @@ test('14_simple_verbatim',
 
 test('15_useful_verbatim',
      [ setup(load('15_useful_verbatim', Text, FileTokens)),
-       true(Tokens == FileTokens),
-       fixme('verbatim broken w.r.t special characters')
+       true(Tokens == FileTokens)
      ]) :-
         phrase(token(Tokens), Text, []), !.
 
@@ -156,8 +155,7 @@ test('17_verbatim_first_line_extra_indented',
 
 test('18_verbatim_special_xml_chars',
      [ setup(load('18_verbatim_special_xml_chars', Text, FileTokens)),
-       true(Tokens == FileTokens),
-       fixme('verbatim broken w.r.t code characters')
+       true(Tokens == FileTokens)
      ]) :-
         phrase(token(Tokens), Text, []), !.
 
@@ -188,7 +186,6 @@ test('22_nested_lists',
 test('23_tagged_markup',
      [ setup(load('23_tagged_markup', Text, FileTokens)),
        true(Tokens == FileTokens),
-       fixme('tagged markup broken')
      ]) :-
         phrase(token(Tokens), Text, []), !.
 
@@ -221,36 +218,31 @@ test('27_note_with_lists',
 
 test('28_required_escapes',
      [ setup(load('28_required_escapes', Text, FileTokens)),
-       true(Tokens == FileTokens),
-       fixme('escaping chars broken')
+       true(Tokens == FileTokens)
      ]) :-
         phrase(token(Tokens), Text, []), !.
 
 test('29_optional_escapes',
      [ setup(load('29_optional_escapes', Text, FileTokens)),
-       true(Tokens == FileTokens),
-       fixme('not detecting optional escapes')
+       true(Tokens == FileTokens)
      ]) :-
         phrase(token(Tokens), Text, []), !.
 
 test('30_escaped_header',
      [ setup(load('30_escaped_header', Text, FileTokens)),
-       true(Tokens == FileTokens),
-       fixme('not escaping header')
+       true(Tokens == FileTokens)
      ]) :-
         phrase(token(Tokens), Text, []), !.
 
 test('31_escaped_numbered_list_marker',
      [ setup(load('31_escaped_numbered_list_marker', Text, FileTokens)),
-       true(Tokens == FileTokens),
-       fixme('not escaping lists')
+       true(Tokens == FileTokens)
      ]) :-
         phrase(token(Tokens), Text, []), !.
 
 test('32_escaped_bullet_list_marker',
      [ setup(load('32_escaped_bullet_list_marker', Text, FileTokens)),
-       true(Tokens == FileTokens),
-       fixme('not escaping bullet lists')
+       true(Tokens == FileTokens)
      ]) :-
         phrase(token(Tokens), Text, []), !.
 

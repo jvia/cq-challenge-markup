@@ -1,1 +1,3 @@
-[word([84,104,105,115]), spaces(1), word([105,115]), spaces(1), italic, word([105,116,97,108,105,99]), '}', spaces(1), word([116,101,120,116,44]), spaces(1), bold, word([98,111,108,100]), '}', spaces(1), word([116,101,120,116,44]), spaces(1), word([97,110,100]), spaces(1), italic, bold, word([105,116,97,108,105,99]), dash, word([98,111,108,100]), '}', '}', spaces(1), word([116,101,120,116,46]), nl(1), eof].
+[
+word([84,104,105,115]), spaces(1), word([105,115]), spaces(1), italic, word([105,116,97,108,105,99]), close(125), spaces(1), word([116,101,120,116,44]), spaces(1), bold, word([98,111,108,100]), close(125), spaces(1), word([116,101,120,116,44]), spaces(1), word([97,110,100]), spaces(1), italic, bold, word([105,116,97,108,105,99]), dash, word([98,111,108,100]), close(125), close(125), spaces(1), word([116,101,120,116,46]), nl(1), eof
+].

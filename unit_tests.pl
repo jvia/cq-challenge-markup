@@ -185,34 +185,31 @@ test('22_nested_lists',
 
 test('23_tagged_markup',
      [ setup(load('23_tagged_markup', Text, FileTokens)),
-       true(Tokens == FileTokens),
+       true(Tokens == FileTokens)
      ]) :-
         phrase(token(Tokens), Text, []), !.
 
 test('24_note_subdocument.txt',
      [ setup(load('24_note_subdocument', Text, FileTokens)),
-       true(Tokens == FileTokens),
-       fixme('note & subdocumentes currently broken.')]) :-
+       true(Tokens == FileTokens)
+     ]) :-
         phrase(token(Tokens), Text, []), !.
 
 test('25_multiparagraph_note',
      [ setup(load('25_multiparagraph_note', Text, FileTokens)),
-       true(Tokens == FileTokens),
-       fixme('not implemented')
+       true(Tokens == FileTokens)
      ]) :-
         phrase(token(Tokens), Text, []), !.
  
 test('26_note_with_blockquote',
      [ setup(load('26_note_with_blockquote', Text, FileTokens)),
-       true(Tokens == FileTokens),
-       fixme('not implemented')
+       true(Tokens == FileTokens)
      ]) :-
         phrase(token(Tokens), Text, []), !.
 
 test('27_note_with_lists',
      [ setup(load('27_note_with_lists', Text, FileTokens)),
-       true(Tokens == FileTokens),
-       fixme('not implemented')
+       true(Tokens == FileTokens)
      ]) :-
         phrase(token(Tokens), Text, []), !.
 
@@ -260,8 +257,7 @@ test('34_modeline',
 
 test('35_links',
      [ setup(load('35_links', Text, FileTokens)),
-       true(Tokens == FileTokens),
-       fixme('not implemented')
+       true(Tokens == FileTokens)
      ]) :-
         phrase(token(Tokens), Text, []), !.
 /*

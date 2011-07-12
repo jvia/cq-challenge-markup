@@ -20,18 +20,22 @@ token([X|Xs]) -->
         { is_plain_char(C) },
         word(X),
         token(Xs).
-token([hash|Xs]) --> hash, token(Xs).
-token([dash|Xs]) --> dash, token(Xs).
+token([X|Xs]) --> hash(X), token(Xs).
+token([X|Xs]) --> dash(X), token(Xs).
+token([X|Xs]) --> pipe(X), token(Xs).
 token([eof]) --> [C], {eof(C)}.
-%% May be error if not from command line
 token([no-eof]) --> [].
 
 %% Note of a hash mark because it may become an ordered list item.
-hash --> "#".
+hash(hash) --> "#".
 
 
 %% Note of a dash mark because it may become an ordered list item.
-dash --> "-".
+dash(dash) --> "-".
+
+
+%% Catch pipes because they have syntactic importance
+pipe(pipe) --> "|".
 
 
 %% Catch everything that may be a potentially escaped character.
@@ -81,7 +85,7 @@ markup(note)   --> "\\note{".
 
 
 %% List of characters of potential syntactic importance
-special("([{<)]}>#-*").
+special("([{<|>})]#-*\\").
 
 %% Catch the modeline so we can ignore it.
 modeline --> "-*- mode: markup; -*-".
@@ -111,3 +115,4 @@ is_word_end(C) :-
         name(' ', [C]) ;
         name('\n', [C]) ;
         -1 == C.
+

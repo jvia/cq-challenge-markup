@@ -260,21 +260,19 @@ test('35_links',
        true(Tokens == FileTokens)
      ]) :-
         phrase(token(Tokens), Text, []), !.
-/*
+
 test('instructions',
      [ setup(load('instructions', Text, FileTokens)),
-       true(Tokens == FileTokens),
-       fixme('not implemented')
+       true(Tokens == FileTokens)
      ]) :-
         phrase(token(Tokens), Text, []), !.
 
 test('markup-spec',
      [ setup(load('markup-spec', Text, FileTokens)),
-       true(Tokens == FileTokens),
-       fixme('not implemented')
+       true(Tokens == FileTokens)
      ]) :-
         phrase(token(Tokens), Text, []), !.
-*/
+
 :- end_tests(lexer).
 
 

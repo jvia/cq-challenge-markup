@@ -8,23 +8,19 @@
           ]).
 
 
-token(Xs)     --> modeline, token(Xs).
+token(Xs)     --> modeline,  token(Xs).
 token([X|Xs]) --> markup(X), token(Xs).
 token([X|Xs]) --> escape(X), token(Xs).
-token([X|Xs]) --> lookahead("*"), asterisk(0, X), token(Xs).
-token([X|Xs]) --> lookahead(" "), spaces(0, X), token(Xs).
+token([X|Xs]) --> lookahead("*"),  asterisk(0, X), token(Xs).
+token([X|Xs]) --> lookahead(" "),  spaces(0, X), token(Xs).
 token([X|Xs]) --> lookahead("\n"), nl(0, X), token(Xs).
-token([X|Xs]) --> bracket(X), token(Xs).
-token([X|Xs]) -->
-        lookahead([C]),
-        { is_plain_char(C) },
-        word(X),
-        token(Xs).
+token([X|Xs]) --> bracket(X),  token(Xs).
+token([X|Xs]) --> lookahead([C]), {is_plain_char(C)}, word(X), token(Xs).
 token([X|Xs]) --> hash(X), token(Xs).
 token([X|Xs]) --> dash(X), token(Xs).
 token([X|Xs]) --> pipe(X), token(Xs).
-token([eof]) --> [C], {eof(C)}.
-token([no-eof]) --> [].
+token([eof])  --> end_of_file.
+token([neof]) --> [].
 
 %% Note of a hash mark because it may become an ordered list item.
 hash(hash) --> "#".
@@ -64,11 +60,11 @@ asterisk(X, asterisk(X)) --> [].
 %% because they make no difference in this task.
 word(word(X)) --> word1(X).
 word1([X|Xs]) --> char(X),  word1(Xs).
-word1([]) --> lookahead(C), { is_word_end(C) } | [].
+word1([])     --> lookahead(C), {is_word_end(C)} | [].
 
 
 %% Tokenize a character which has no syntactic potential.
-char(C) --> [C], { is_plain_char(C) }.
+char(C) --> [C], {is_plain_char(C)}.
 
 
 %% Make a note of brackets since they tend to have syntactic
@@ -82,17 +78,15 @@ markup(italic) --> "\\i{".
 markup(bold)   --> "\\b{".
 markup(code)   --> "\\code{".
 markup(note)   --> "\\note{".
+markup(url)    --> "\\url{".
 
-
-%% List of characters of potential syntactic importance
-special("([{<|>})]#-*\\").
 
 %% Catch the modeline so we can ignore it.
 modeline --> "-*- mode: markup; -*-".
 
 
 %% End of file character
-eof(-1).
+end_of_file --> [-1].
 
 
 /*******************************/
@@ -104,15 +98,13 @@ lookahead([C]), [C] --> [C].
 
 
 is_plain_char(C) :-
-        "!" =< C, C =< "~",
+        "!" =< C,
         C =\= -1,
-        %% Special markup
-        special(Special),
-        \+ member(C, Special).
+        %% Characters of syntactic importance.
+        \+ member(C, "([{<|>})]#-*\\").
 
 
 is_word_end(C) :-
         name(' ', [C]) ;
         name('\n', [C]) ;
         -1 == C.
-

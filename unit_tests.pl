@@ -161,7 +161,7 @@ test('25_multiparagraph_note',
        true(Tokens == FileTokens)
      ]) :-
         phrase(token(Tokens), Text, []), !.
- 
+
 test('26_note_with_blockquote',
      [ setup(lexer_load('26_note_with_blockquote', Text, FileTokens)),
        true(Tokens == FileTokens)
@@ -256,6 +256,26 @@ test('02_simple_paragraph',
         phrase(body(Body), Tokens, []),
         ast_to_xml(Body, Xml), !.
 
+test('03_multiline_paragraph',
+     [ setup(grammar_load('03_multiline_paragraph', Tokens, File_XML)),
+       true(Xml == File_XML)
+     ]) :-
+        phrase(body(Body), Tokens, []),
+        ast_to_xml(Body, Xml), !.
+
+test('04_two_paragraphs',
+     [ setup(grammar_load('04_two_paragraphs', Tokens, File_XML)),
+       true(Xml == File_XML)
+     ]) :-
+        phrase(body(Body), Tokens, []),
+        ast_to_xml(Body, Xml), !.
+
+test('05_several_multiline_paragraphs',
+     [ setup(grammar_load('05_several_multiline_paragraphs', Tokens, File_XML)),
+       true(Xml == File_XML)
+     ]) :-
+        phrase(body(Body), Tokens, []),
+        ast_to_xml(Body, Xml), !.
 
 :-end_tests(grammar).
 
@@ -323,7 +343,7 @@ grammar_load(Case, Tokens, XML) :-
         append(Path, ".xml", XmlPathString),
         string_to_atom(XmlPathString, XmlPath),
         read_xml(XmlPath, XML).
-        
+
 
 read_list(File, List) :-
         see(File),

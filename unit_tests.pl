@@ -4,6 +4,7 @@
 
 :- use_module(library(plunit)).
 :- use_module(lexer).
+:- use_module(grammar).
 
 
 /********************************************************************/
@@ -243,10 +244,18 @@ test('markup-spec',
 
 test('01_empty',
      [ setup(grammar_load('01_empty', Tokens, File_XML)),
-       true(XML == File_XML),
-       fixme('not implemented')
+       true(Xml == File_XML)
      ]) :-
-        phrase(body(XML), Tokens, []), !.
+        phrase(body(Body), Tokens, []),
+        ast_to_xml(Body, Xml), !.
+
+test('02_simple_paragraph',
+     [ setup(grammar_load('02_simple_paragraph', Tokens, File_XML)),
+       true(Xml == File_XML)
+     ]) :-
+        phrase(body(Body), Tokens, []),
+        ast_to_xml(Body, Xml), !.
+
 
 :-end_tests(grammar).
 
@@ -283,7 +292,8 @@ read_xml(File, Text) :-
 
 read_xml1(Accm, Text) :-
         get_code(Char),
-        ( Char == -1 ->
+        peek_code(C),
+        ( Char == 10, C == -1 ->
           Accm = Text
         ;
           append(Accm, [Char], New_Accm),
